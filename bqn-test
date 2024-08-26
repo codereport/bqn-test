@@ -1,0 +1,11 @@
+#!/usr/bin/env bqn
+
+⟨Green, Red⟩ ⇐ •Import "../bqn-color/color.bqn"
+
+•Out Green "bqn-test"
+•Out ⟨⟩
+
+f ← (0⊑•args)∾" summary: "                 # file name
+c ← •file.Chars 0⊑•args                    # content
+t ← 1↓(×≠¨)⊸/c⊔˜(+`¬)⊸×('}'=c)∨+`-˝"{}"=⌜c # tests
+•Out f∾∾(•BQN¨t)⊏⟨Red "X",Green "."⟩       # run tests
