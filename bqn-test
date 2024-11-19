@@ -4,17 +4,19 @@
 ⟨Join, Unlines, Words, Unwords⟩ ⇐ •Import "../bqn-code/lib/string.bqn"
 ⟨Split⟩ ⇐ •Import "../bqn-code/lib/strings.bqn" # TODO fix
 
-•Out ⟨⟩
-c ← Green‿Yellow‿Red
-d ← "·∘○"
-•Out (∾c{𝕎𝕩}¨d)∾Green " bqn-test "∾(∾c{𝕎𝕩}¨○⌽d)
-•Out ⟨⟩
+nl ← @+10
+
+title ← {
+    c ← Green‿Yellow‿Red # colors
+    d ← "·∘○"            # dots
+    nl∾(∾c{𝕎𝕩}¨d)∾Green " bqn-test "∾(∾c{𝕎𝕩}¨○⌽d)∾nl
+}
 
 ListRecursiveFiles ← {
-    l ← •file.List 𝕩           # files/directories
-    P ← (𝕩∾"/")⊸∾              # prefix
-    m ← 'd'=•file.Type¨P¨l     # mask
-    d ← l/˜m                   # directories
+    l ← •file.List 𝕩             # files/directories
+    P ← (𝕩∾"/")⊸∾                # prefix
+    m ← 'd'=•file.Type¨P¨l       # mask
+    d ← l/˜m                     # directories
     f ← l/˜((∨´1↓".bqn"⊸⍷)¨l)∧¬m # file
     (P¨f) ∾ ∾𝕊¨P¨d
 }
@@ -28,12 +30,17 @@ TestSingleFile ← {
     o ← "_temp"
     o •file.Chars ""
     •BQN m
-    f ← (𝕩)∾" summary: " # file name
+    f ← 𝕩∾" summary: " # file name
     •Out f∾∾('x'=•file.Chars o)⊏⟨Red "○",Green "·"⟩
     •file.Remove o
 }
 
-IncludesUnitTest ← { ∨´"UnitTest"⍷•file.Chars 𝕩 }
+IncludesUnitTest ← { ∨´"UnitTest"⍷•file.Chars𝕩 }
 
-TestSingleFile¨IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
-•Out ⟨⟩
+main ← {
+    •Out title
+    TestSingleFile¨IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
+    •Out ⟨⟩
+}
+
+main
