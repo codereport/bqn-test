@@ -15,7 +15,7 @@ ListRecursiveFiles ← {
     P ← (𝕩∾"/")⊸∾              # prefix
     m ← 'd'=•file.Type¨P¨l     # mask
     d ← l/˜m                   # directories
-    f ← l/˜((∨´".bqn"⊸⍷)¨l)∧¬m # file
+    f ← l/˜((∨´1↓".bqn"⊸⍷)¨l)∧¬m # file
     (P¨f) ∾ ∾𝕊¨P¨d
 }
 
@@ -28,10 +28,12 @@ TestSingleFile ← {
     o ← "_temp"
     o •file.Chars ""
     •BQN m
-    f ← (2↓𝕩)∾" summary: " # file name
+    f ← (𝕩)∾" summary: " # file name
     •Out f∾∾('x'=•file.Chars o)⊏⟨Red "○",Green "·"⟩
     •file.Remove o
 }
 
-TestSingleFile¨ListRecursiveFiles "." # TODO filter out non-UnitTest files
+IncludesUnitTest ← { ∨´"UnitTest"⍷•file.Chars 𝕩 }
+
+TestSingleFile¨IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
 •Out ⟨⟩
