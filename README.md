@@ -17,4 +17,5 @@
 
 A simple unit testing library for [BQN](https://mlochbaum.github.io/BQN) (inspired by [pytest](https://docs.pytest.org/en/stable/)).
 
-![image](https://github.com/user-attachments/assets/0cac5226-b831-4dca-8287-3b59aa054070)
+![image](https://github.com/user-attachments/assets/80c6ff9a-16a8-450f-a47d-149054c9a297)
+
