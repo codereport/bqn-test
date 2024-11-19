@@ -30,16 +30,18 @@ TestSingleFile ← {
     o ← "_temp"
     o •file.Chars ""
     •BQN m
-    f ← 𝕩∾" summary: " # file name
-    •Out f∾∾('x'=•file.Chars o)⊏⟨Red "○",Green "∘"⟩
+    f   ← 𝕩∾" summary: "    # file name
+    res ← 'x'=•file.Chars o # results
+    •Out f∾∾res⊏⟨Red "○",Green "∘"⟩
+    •Out∘Red¨u/˜¬res
     •file.Remove o
 }
 
-IncludesUnitTest ← { ∨´"UnitTest"⍷•file.Chars𝕩 }
+IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
-    TestSingleFile¨IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
+    TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
     •Out ⟨⟩
 }
 
