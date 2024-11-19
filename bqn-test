@@ -31,7 +31,7 @@ TestSingleFile ← {
     o •file.Chars ""
     •BQN m
     f ← 𝕩∾" summary: " # file name
-    •Out f∾∾('x'=•file.Chars o)⊏⟨Red "○",Green "·"⟩
+    •Out f∾∾('x'=•file.Chars o)⊏⟨Red "○",Green "∘"⟩
     •file.Remove o
 }
 
