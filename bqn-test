@@ -1,8 +1,7 @@
 #!/usr/bin/env bqn
 
 ⟨Green, Yellow, Red⟩ ⇐ •Import "../bqn-color/color.bqn"
-⟨Join, Unlines, Words, Unwords⟩ ⇐ •Import "../bqn-code/lib/string.bqn"
-⟨Split⟩ ⇐ •Import "../bqn-code/lib/strings.bqn" # TODO fix
+s ⇐ •Import "../bqn-code/lib/string.bqn"
 
 nl ← @+10
 
@@ -22,11 +21,11 @@ ListRecursiveFiles ← {
 }
 
 TestSingleFile ← {
-    l ← •file.Lines 𝕩                      # lines
-    t ← "UnitTest"                         # target
-    r ← "UnitTestActual"                   # replace
-    m ← Unlines { r Join t Split 𝕩 }¨l     # modded file
-    u ← {Unwords 1↓Words𝕩}¨ l/˜{⊑0∾˜t⍷𝕩}¨l # unit tests
+    l ← •file.Lines 𝕩                         # lines
+    t ← "UnitTest"                            # target
+    r ← "UnitTestActual"                      # replace
+    m ← s.Unlines t‿r⊸s.Replace¨l             # modded file
+    u ← {s.Unwords 1↓s.Words𝕩}¨l/˜{⊑0∾˜t⍷𝕩}¨l # unit tests
     o ← "_temp"
     o •file.Chars ""
     •BQN m
