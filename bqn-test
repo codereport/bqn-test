@@ -21,19 +21,28 @@ ListRecursiveFiles ← {
 }
 
 TestSingleFile ← {
-    l ← •file.Lines 𝕩                         # lines
-    t ← "UnitTest"                            # target
-    r ← "UnitTestActual"                      # replace
-    m ← s.Unlines t‿r⊸s.Replace¨l             # modded file
-    u ← {s.Unwords 1↓s.Words𝕩}¨l/˜{⊑0∾˜t⍷𝕩}¨l # unit tests
-    o ← "_temp"
+    l   ← •file.Lines 𝕩                 # lines
+    t   ← "UnitTest"                    # target
+    r   ← "UnitTestActual"              # replace
+    r2  ← "ExecuteHalf"                 # replace 2
+    m   ← {⊑0∾˜t⍷𝕩}¨l                   # mask for unit tests
+    Ts  ← (¬·∨`'≡'⊸=)⊸/¨⌾(m⊸/)          # trim suffix
+    mf  ← s.Unlines    t‿r ⊸s.Replace¨l # modded file
+    mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l # modded file 2
+    Op  ← {s.Unwords ¯1↓"≡" s.Split t‿r2 s.Replace 𝕩}
+    u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m # unit tests
+    o   ← "_temp"
     o •file.Chars ""
-    •BQN m
+    •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     res ← 'x'=•file.Chars o     # results
     ft  ← (nl⊸∾¨u)/˜¬res        # failing tests
+    o •file.Chars ""
+    •BQN mf2
+    res2 ← 1↓•file.Lines o
+    curr ← res2/˜¬res # current results
     •file.Remove o
-    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾(Red¨ft)∾((¬𝕨)∧×≠ft)⊏""‿nl
+    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾((Red¨ft)⋈¨(" currently: "⊸∾∘Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
