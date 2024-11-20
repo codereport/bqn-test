@@ -29,18 +29,21 @@ TestSingleFile ← {
     o ← "_temp"
     o •file.Chars ""
     •BQN m
-    f   ← 𝕩∾" summary: "    # file name
-    res ← 'x'=•file.Chars o # results
-    •Out f∾∾res⊏⟨Red "○",Green "∘"⟩
-    •Out∘Red¨u/˜¬res
+    f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
+    res ← 'x'=•file.Chars o     # results
+    ft  ← (Red¨(nl⊸∾¨u)/˜¬res)  # failing tests
     •file.Remove o
+    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾ft∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
-    TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles 0⊑•args
+    dir ← 0⊑•args  # TODO add warning for no directory
+    v   ← 1<≠•args # verbose # TODO add assert for -v arg
+    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles dir
+    { v ? •Out¨ out ; •Out ∾out }
     •Out ⟨⟩
 }
 
