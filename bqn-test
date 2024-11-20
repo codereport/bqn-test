@@ -40,9 +40,11 @@ IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸
 
 main ← {
     •Out title
-    dir ← 0⊑•args  # TODO add warning for no directory
-    v   ← 1<≠•args # verbose # TODO add assert for -v arg
-    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles dir
+    (Red "Must provide directory (`pwd` for current)") ! 0≠≠•args
+    d ← 0⊑•args  # directory
+    v ← 1<≠•args # verbose
+    { v ? (Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
+    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles d
     { v ? •Out¨ out ; •Out ∾out }
     •Out ⟨⟩
 }
