@@ -31,9 +31,9 @@ TestSingleFile ← {
     •BQN m
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     res ← 'x'=•file.Chars o     # results
-    ft  ← (Red¨(nl⊸∾¨u)/˜¬res)  # failing tests
+    ft  ← (nl⊸∾¨u)/˜¬res        # failing tests
     •file.Remove o
-    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾ft∾((¬𝕨)∧×≠ft)⊏""‿nl
+    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾(Red¨ft)∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
