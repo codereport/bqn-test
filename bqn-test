@@ -7,7 +7,7 @@ nl ← @+10
 
 title ← {
     c ← Green‿Yellow‿Red # colors
-    d ← "·∘○"            # dots
+    d ← "∘○⌾"            # dots
     nl∾(∾c{𝕎𝕩}¨d)∾Green " bqn-test "∾(∾c{𝕎𝕩}¨○⌽d)∾nl
 }
 
@@ -25,7 +25,7 @@ TestSingleFile ← {
     t   ← "UnitTest"                    # target
     r   ← "UnitTestActual"              # replace
     r2  ← "ExecuteHalf"                 # replace 2
-    m   ← {⊑0∾˜t⍷𝕩}¨l                   # mask for unit tests
+    m   ← {⊑0∾˜"Unit"⍷𝕩}¨l              # mask for unit tests
     Ts  ← (¬·∨`'≡'⊸=)⊸/¨⌾(m⊸/)          # trim suffix
     mf  ← s.Unlines    t‿r ⊸s.Replace¨l # modded file
     mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l # modded file 2
@@ -35,17 +35,18 @@ TestSingleFile ← {
     o •file.Chars ""
     •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
-    res ← 'x'=•file.Chars o     # results
-    ft  ← (nl⊸∾¨u)/˜¬res        # failing tests
+    res ← "x.f"⊐•file.Chars o   # results
+    •file.Chars o
+    ft  ← (nl⊸∾¨u)/˜¬×res # failing tests
     o •file.Chars ""
     •BQN mf2
     res2 ← 1↓•file.Lines o
-    curr ← res2/˜¬res # current results
+    curr ← res2/˜(≠res2)↑¬res # current results # TODO look at the ≠res2↑
     •file.Remove o
-    ∾f∾∾(res⊏⟨Red "○",Green "∘"⟩)∾((Red¨ft)⋈¨(" currently: "⊸∾∘Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
+    ∾f∾∾(res⊏⟨Red "⌾",Green "∘",Yellow "○"⟩)∾((Red¨ft)⋈¨(" currently: "⊸∾∘Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
-IncludesUnitTest ← { ∨´(∨´"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
+IncludesUnitTest ← { ∨´(∨´"UnitFail"⊸⍷∨"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
