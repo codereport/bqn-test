@@ -46,8 +46,7 @@ main ← {
     d ← 0⊑•args  # directory
     v ← 1<≠•args # verbose
     { v ? (Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
-    b ← (∨´1↓".bqn"⊸⍷)¨⊸/ 'd' fs.ListRecursive d # bqn files
-    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/b
+    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
     { v ? •Out¨ out ; •Out ∾out }
     •Out ⟨⟩
 }
