@@ -19,6 +19,8 @@ A simple unit testing library for [BQN](https://mlochbaum.github.io/BQN) (inspir
 
 ### Usage
 
+#### Running from the command line
+
 Basic usage shown below:
 ```bash
 bqn-test `pwd`    # this is quiet mode
@@ -28,6 +30,19 @@ bqn-test `pwd` -v # this is verbose mode
 Note, after `git clone`-ing this repo, you will probably want to put the `bqn-test` script on your path:
 ```bash
 export PATH=$PATH:/home/cph/bqn-test
+```
+
+#### Using in BQN files
+
+Include the `test.bqn` and then make use of `UnitTest` for passing tests and `UnitFail` if you currently expect the test to fail. In order to get `currently:` results, use match `≡` and the expression preceed the `≡` will be evaluated.
+
+```bqn
+⟨UnitTest, UnitFail⟩ ⇐ •Import "/home/cph/bqn-test/test.bqn"
+
+PlusOne ← { 𝕩+1 }
+
+UnitTest (PlusOne 1) ≡ 2
+UnitFail (PlusOne 1) ≡ 3
 ```
 
 ### Demo
