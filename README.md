@@ -32,5 +32,7 @@ export PATH=$PATH:/home/cph/bqn-test
 
 ### Demo
 
-![image](https://github.com/user-attachments/assets/80c6ff9a-16a8-450f-a47d-149054c9a297)
+![2024-11-2022-41-22-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/54c511fc-3d44-42b0-9e52-c45ba5018558)
+
+
 
