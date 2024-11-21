@@ -1,7 +1,8 @@
 #!/usr/bin/env bqn
 
 ⟨Green, Yellow, Red⟩ ⇐ •Import "../bqn-color/color.bqn"
-s ⇐ •Import "../bqn-code/lib/string.bqn"
+s  ⇐ •Import "../bqn-code/lib/string.bqn"
+fs ⇐ •Import "../bqn-code/lib/file_system.bqn"
 
 nl ← @+10
 
@@ -9,15 +10,6 @@ title ← {
     c ← Green‿Yellow‿Red # colors
     d ← "∘○⌾"            # dots
     nl∾(∾c{𝕎𝕩}¨d)∾Green " bqn-test "∾(∾c{𝕎𝕩}¨○⌽d)∾nl
-}
-
-ListRecursiveFiles ← {
-    l ← •file.List 𝕩             # files/directories
-    P ← (𝕩∾"/")⊸∾                # prefix
-    m ← 'd'=•file.Type¨P¨l       # mask
-    d ← l/˜m                     # directories
-    f ← l/˜((∨´1↓".bqn"⊸⍷)¨l)∧¬m # file
-    (P¨f) ∾ ∾𝕊¨P¨d
 }
 
 TestSingleFile ← {
@@ -54,7 +46,8 @@ main ← {
     d ← 0⊑•args  # directory
     v ← 1<≠•args # verbose
     { v ? (Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
-    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/ListRecursiveFiles d
+    b ← (∨´1↓".bqn"⊸⍷)¨⊸/ 'd' fs.ListRecursive d # bqn files
+    out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/b
     { v ? •Out¨ out ; •Out ∾out }
     •Out ⟨⟩
 }
