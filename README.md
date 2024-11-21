@@ -17,5 +17,20 @@
 
 A simple unit testing library for [BQN](https://mlochbaum.github.io/BQN) (inspired by [pytest](https://docs.pytest.org/en/stable/)).
 
+### Usage
+
+Basic usage shown below:
+```bash
+bqn-test `pwd`    # this is quiet mode
+bqn-test `pwd` -v # this is verbose mode
+```
+
+Note, after `git clone`-ing this repo, you will probably want to put the `bqn-test` script on your path:
+```bash
+export PATH=$PATH:/home/cph/bqn-test
+```
+
+### Demo
+
 ![image](https://github.com/user-attachments/assets/80c6ff9a-16a8-450f-a47d-149054c9a297)
 
