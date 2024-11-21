@@ -34,7 +34,7 @@ export PATH=$PATH:/home/cph/bqn-test
 
 #### Using in BQN files
 
-Include the `test.bqn` and then make use of `UnitTest` for passing tests and `UnitFail` if you currently expect the test to fail. In order to get `currently:` results, use match `≡` and the expression preceed the `≡` will be evaluated.
+Include the `test.bqn` and then make use of `UnitTest` for passing tests and `UnitFail` if you currently expect the test to fail. In order to get `currently:` results, use match `≡` and the expression preceeding the `≡` will be evaluated.
 
 ```bqn
 ⟨UnitTest, UnitFail⟩ ⇐ •Import "/home/cph/bqn-test/test.bqn"
