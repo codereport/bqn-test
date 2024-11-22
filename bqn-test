@@ -31,8 +31,8 @@ TestSingleFile ← {
     ft  ← (nl⊸∾¨u)/˜2=uts # failing tests
     o •file.Chars ""
     •BQN mf2
-    ce ← 1↓•file.Lines o # current evaluations
-    fe ← ce/˜(≠ce)↑×uts  # failing evauations (only) # TODO look at the ≠res2↑
+    ce ← 1↓•file.Lines o  # current evaluations
+    fe ← ce((≠⊸↑⟜×)/⊣)uts # failing evauations (only)
     •file.Remove o
     ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
