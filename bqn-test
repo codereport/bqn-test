@@ -47,7 +47,7 @@ main ← {
     { v ? (c.Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
     out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
     { v ? •Out¨ out ; •Out ∾out }
-    t ← •Fmt¨ ⊑+˝(+´˘dots⊸(=⌜))¨ out # totals
+    t ← •Fmt¨⊑+˝(+˝=⌜⟜dots)¨out # totals
     •Out nl∾nl∾˜", " s.Join colors{𝕎𝕩}¨t∾¨" passed"‿" xfailed"‿" failed"
 }
 
