@@ -8,8 +8,8 @@ fs ⇐ •Import "../bqn-code/lib/file_system.bqn"
 nl     ← @+10 # new line
 colors ← c.Green‿c.Yellow‿c.Red
 dots   ← "∘○⌾"
-cdots  ← ∾colors{𝕎𝕩}¨dots# colored dots
-title  ← nl∾cdots∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
+cdots  ← colors{𝕎𝕩}¨dots# colored dots
+title  ← nl∾(∾cdots)∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
 
 TestSingleFile ← {
     l   ← •file.Lines 𝕩                 # lines
@@ -26,15 +26,15 @@ TestSingleFile ← {
     o •file.Chars ""
     •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
-    res ← "x.f"⊐•file.Chars o   # results
+    uts ← ".fx"⊐•file.Chars o   # unit test status (pass/(x)/fail)
     •file.Chars o
-    ft  ← (nl⊸∾¨u)/˜¬×res # failing tests
+    ft  ← (nl⊸∾¨u)/˜2=uts # failing tests
     o •file.Chars ""
     •BQN mf2
-    res2 ← 1↓•file.Lines o
-    curr ← res2/˜(≠res2)↑¬res # current results # TODO look at the ≠res2↑
+    ce ← 1↓•file.Lines o # current evaluations
+    fe ← ce/˜(≠ce)↑×uts  # failing evauations (only) # TODO look at the ≠res2↑
     •file.Remove o
-    ∾f∾∾(res⊏⟨c.Red "⌾",c.Green "∘",c.Yellow "○"⟩)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
+    ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´1↑"UnitFail"⊸⍷∨"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
