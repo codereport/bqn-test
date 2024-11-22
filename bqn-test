@@ -1,16 +1,15 @@
 #!/usr/bin/env bqn
 
-⟨Green, Yellow, Red⟩ ⇐ •Import "../bqn-color/color.bqn"
+c  ⇐ •Import "../bqn-color/color.bqn"
 s  ⇐ •Import "../bqn-code/lib/string.bqn"
 fs ⇐ •Import "../bqn-code/lib/file_system.bqn"
 
+# Constants
 nl     ← @+10 # new line
-colors ← Green‿Yellow‿Red
+colors ← c.Green‿c.Yellow‿c.Red
 dots   ← "∘○⌾"
-
-title ← {
-    nl∾(∾colors{𝕎𝕩}¨dots)∾Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
-}
+cdots  ← ∾colors{𝕎𝕩}¨dots# colored dots
+title  ← nl∾cdots∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
 
 TestSingleFile ← {
     l   ← •file.Lines 𝕩                 # lines
@@ -35,17 +34,17 @@ TestSingleFile ← {
     res2 ← 1↓•file.Lines o
     curr ← res2/˜(≠res2)↑¬res # current results # TODO look at the ≠res2↑
     •file.Remove o
-    ∾f∾∾(res⊏⟨Red "⌾",Green "∘",Yellow "○"⟩)∾((Red¨ft)⋈¨(" currently: "⊸∾∘Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
+    ∾f∾∾(res⊏⟨c.Red "⌾",c.Green "∘",c.Yellow "○"⟩)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨curr))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´1↑"UnitFail"⊸⍷∨"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
-    (Red "Must provide directory (`pwd` for current)") ! 0≠≠•args
+    (c.Red "Must provide directory (`pwd` for current)") ! 0≠≠•args
     d ← 0⊑•args  # directory
     v ← 1<≠•args # verbose
-    { v ? (Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
+    { v ? (c.Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
     out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
     { v ? •Out¨ out ; •Out ∾out }
     t ← •Fmt¨ ⊑+˝(+´˘dots⊸(=⌜))¨ out # totals
