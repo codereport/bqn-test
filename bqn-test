@@ -4,12 +4,12 @@
 s  ⇐ •Import "../bqn-code/lib/string.bqn"
 fs ⇐ •Import "../bqn-code/lib/file_system.bqn"
 
-nl ← @+10
+nl     ← @+10 # new line
+colors ← Green‿Yellow‿Red
+dots   ← "∘○⌾"
 
 title ← {
-    c ← Green‿Yellow‿Red # colors
-    d ← "∘○⌾"            # dots
-    nl∾(∾c{𝕎𝕩}¨d)∾Green " bqn-test "∾(∾c{𝕎𝕩}¨○⌽d)∾nl
+    nl∾(∾colors{𝕎𝕩}¨dots)∾Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
 }
 
 TestSingleFile ← {
@@ -48,7 +48,8 @@ main ← {
     { v ? (Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
     out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
     { v ? •Out¨ out ; •Out ∾out }
-    •Out ⟨⟩
+    t ← •Fmt¨ ⊑+˝(+´˘dots⊸(=⌜))¨ out # totals
+    •Out nl∾nl∾˜", " s.Join colors{𝕎𝕩}¨t∾¨" passed"‿" xfailed"‿" failed"
 }
 
 main
