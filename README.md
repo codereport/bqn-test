@@ -23,8 +23,8 @@ A simple unit testing library for [BQN](https://mlochbaum.github.io/BQN) (inspir
 
 Basic usage shown below:
 ```bash
-bqn-test `pwd`    # this is quiet mode
-bqn-test `pwd` -v # this is verbose mode
+bqn-test .    # this is quiet mode
+bqn-test . -v # this is verbose mode
 ```
 
 Note, after `git clone`-ing this repo, you will probably want to put the `bqn-test` script on your path:

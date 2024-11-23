@@ -22,15 +22,12 @@ TestSingleFile ← {
     mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l # modded file 2
     Op  ← {s.Unwords ¯1↓"≡" s.Split t‿r2 s.Replace 𝕩}
     u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m # unit tests
-    o   ← "_temp"
-    o •file.Chars ""
-    •BQN mf
+    o   ← "_temp" ⋄ o •file.Chars "" ⋄ •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     uts ← ".fx"⊐•file.Chars o   # unit test status (pass/(x)/fail)
     •file.Chars o
     ft  ← (nl⊸∾¨u)/˜2=uts # failing tests
-    o •file.Chars ""
-    •BQN mf2
+    o •file.Chars "" ⋄ •BQN mf2
     ce ← 1↓•file.Lines o  # current evaluations
     fe ← ce((≠⊸↑⟜×)/⊣)uts # failing evauations (only)
     •file.Remove o
@@ -41,8 +38,8 @@ IncludesUnitTest ← { ∨´(∨´1↑"UnitFail"⊸⍷∨"UnitTest"⊸⍷)¨(¬�
 
 main ← {
     •Out title
-    (c.Red "Must provide directory (`pwd` for current)") ! 0≠≠•args
-    d ← 0⊑•args  # directory
+    (c.Red "Must provide directory") ! 0≠≠•args
+    d ← { "."≡0⊑•args ? •wdpath ; 0⊑•args } # directory
     v ← 1<≠•args # verbose
     { v ? (c.Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
     out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
