@@ -1,14 +1,14 @@
 #!/usr/bin/env bqn
 
-c  ⇐ •Import "../bqn-color/color.bqn"
-s  ⇐ •Import "../bqn-code/lib/string.bqn"
-fs ⇐ •Import "../bqn-code/lib/file_system.bqn"
+c  ⇐ •Import "deps/color.bqn"
+s  ⇐ •Import "deps/string.bqn"
+fs ⇐ •Import "deps/file_system.bqn"
 
 # Constants
 nl     ← @+10 # new line
 colors ← c.Green‿c.Yellow‿c.Red
 dots   ← "∘○⌾"
-cdots  ← colors{𝕎𝕩}¨dots# colored dots
+cdots  ← colors{𝕎𝕩}¨dots # colored dots
 title  ← nl∾(∾cdots)∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
 
 TestSingleFile ← {
