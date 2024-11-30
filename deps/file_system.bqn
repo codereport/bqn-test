@@ -7,4 +7,6 @@ ListRecursiveFiles ⇐ {
     (P¨f) ∾ ∾𝕊¨P¨d
 }
 
+Clear ⇐ { 𝕩 •file.Chars "" }
+
 ListRecursiveBQNFiles ⇐ (∨´1↓".bqn"⊸⍷)¨⊸/ListRecursiveFiles
