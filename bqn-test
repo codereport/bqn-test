@@ -10,6 +10,7 @@ colors ← c.Green‿c.Yellow‿c.Red
 dots   ← "∘○⌾"
 cdots  ← colors{𝕎𝕩}¨dots # colored dots
 title  ← nl∾(∾cdots)∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽dots)∾nl
+o      ← •wdpath∾"/_temp" # temporary output file
 
 TestSingleFile ← {
     l   ← •file.Lines 𝕩                 # lines
@@ -20,17 +21,21 @@ TestSingleFile ← {
     Ts  ← (¬·∨`'≡'⊸=)⊸/¨⌾(m⊸/)          # trim suffix
     mf  ← s.Unlines    t‿r ⊸s.Replace¨l # modded file
     mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l # modded file 2
-    Op  ← {s.Unwords ¯1↓"≡" s.Split t‿r2 s.Replace 𝕩}
-    u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m # unit tests
-    o   ← "_temp" ⋄ o •file.Chars "" ⋄ •BQN mf
+    u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m   # unit tests
+
+    # run unit tests & collect statuses
+    fs.Touch o ⋄ •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     uts ← ".fx"⊐•file.Chars o   # unit test status (pass/(x)/fail)
-    •file.Chars o
-    ft  ← (nl⊸∾¨u)/˜2=uts # failing tests
-    o •file.Chars "" ⋄ •BQN mf2
+    ft  ← (nl⊸∾¨u)/˜2=uts       # failing tests
+
+    # collect current results of failing tests
+    fs.Clear o ⋄ •BQN mf2
     ce ← { ×≠ft ? (nl‿nl s.Split 2↓ •file.Chars o) ; ⟨⟩ } # current evaluations
     fe ← ce((≠⊸↑⟜×)/⊣)uts                                 # failing evauations (only)
     •file.Remove o
+
+    # formatted test status + failing results if any
     ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 

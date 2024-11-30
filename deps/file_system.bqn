@@ -8,5 +8,6 @@ ListRecursiveFiles ⇐ {
 }
 
 Clear ⇐ { 𝕩 •file.Chars "" }
+Touch ⇐ Clear
 
 ListRecursiveBQNFiles ⇐ (∨´1↓".bqn"⊸⍷)¨⊸/ListRecursiveFiles

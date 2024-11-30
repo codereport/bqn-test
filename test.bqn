@@ -1,4 +1,4 @@
-o  ← "_temp"
+o  ← •wdpath∾"/_temp" # temporary output file
 nl ← @+10
 Append   ← { c ← •file.Chars o ⋄ o •file.Chars c∾𝕩 }
 AppendNl ← { c ← •file.Chars o ⋄ o •file.Chars c∾nl∾nl∾𝕩 }
