@@ -13,39 +13,36 @@ title  ← nl∾(∾cdots)∾c.Green " bqn-test "∾(∾colors{𝕎𝕩}¨○⌽
 o      ← •wdpath∾"/_temp" # temporary output file
 
 TestSingleFile ← {
-    l   ← •file.Lines 𝕩                 # lines
-    t   ← "UnitTest"                    # target
-    r   ← "UnitTestActual"              # replace
-    r2  ← "ExecuteHalf"                 # replace 2
-    m   ← {⊑0∾˜"Unit"⍷𝕩}¨l              # mask for unit tests
-    Ts  ← (¬·∨`'≡'⊸=)⊸/¨⌾(m⊸/)          # trim suffix
-    mf  ← s.Unlines    t‿r ⊸s.Replace¨l # modded file
-    mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l # modded file 2
-    u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m   # unit tests
+    l   ← •file.Lines 𝕩                       # lines
+    t   ← "UnitTest"                          # target
+    r   ← "UnitTestActual"                    # replace
+    r2  ← "ExecuteHalf"                       # replace 2
+    m   ← {(⊑0∾˜"u.Unit"⍷𝕩)∨(⊑0∾˜"Unit"⍷𝕩)}¨l # mask for unit tests # TODO cleanup
+    Ts  ← (¬·∨`'≡'⊸=)⊸/¨⌾(m⊸/)                # trim suffix
+    mf  ← s.Unlines    t‿r ⊸s.Replace¨l       # modded file
+    mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l       # modded file 2
+    u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m         # unit tests
 
-    # run unit tests & collect statuses
     fs.Touch o ⋄ •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     uts ← ".fx"⊐•file.Chars o   # unit test status (pass/(x)/fail)
     ft  ← (nl⊸∾¨u)/˜2=uts       # failing tests
 
-    # collect current results of failing tests
     fs.Clear o ⋄ •BQN mf2
-    ce ← { ×≠ft ? (nl‿nl s.Split 2↓ •file.Chars o) ; ⟨⟩ } # current evaluations
-    fe ← ce((≠⊸↑⟜×)/⊣)uts                                 # failing evauations (only)
+    ce ← { ×≠ft ? s.Lines2 2↓•file.Chars o ; ⟨⟩ } # current evaluations
+    fe ← ce((≠⊸↑⟜×)/⊣)uts                         # failing evauations (only)
     •file.Remove o
 
-    # formatted test status + failing results if any
     ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
-IncludesUnitTest ← { ∨´(∨´1↑"UnitFail"⊸⍷∨"UnitTest"⊸⍷)¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
+IncludesUnitTest ← { ∨´(∨´1↑"u.UnitTe"⊸⍷∨("UnitFail"⊸⍷∨"UnitTest"⊸⍷))¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
     (c.Red "Must provide directory") ! 0≠≠•args
     d ← { "."≡0⊑•args ? •wdpath ; 0⊑•args } # directory
-    v ← 1<≠•args # verbose
+    v ← 1<≠•args                            # verbose
     { v ? (c.Red "2nd argument must be '-v' (if specified)") ! "-v"≡⊑1⊏•args ; ∞ }
     out ← v⊸TestSingleFile¨∧IncludesUnitTest¨⊸/fs.ListRecursiveBQNFiles d
     { v ? •Out¨ out ; •Out ∾out }
