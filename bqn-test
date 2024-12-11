@@ -22,13 +22,14 @@ TestSingleFile ← {
     mf  ← s.Unlines    t‿r ⊸s.Replace¨l       # modded file
     mf2 ← s.Unlines Ts t‿r2⊸s.Replace¨l       # modded file 2
     u   ← {s.Unwords 1↓s.Words𝕩}¨l/˜m         # unit tests
+    p   ← ⋈'/'s.Join ¯1↓'/'s.Split2𝕩          # path for script
 
-    fs.Touch o ⋄ •BQN mf
+    fs.Touch o ⋄ p •BQN mf
     f   ← 𝕨⊏""‿(𝕩∾" summary: ") # file name
     uts ← ".fx"⊐•file.Chars o   # unit test status (pass/(x)/fail)
     ft  ← (nl⊸∾¨u)/˜2=uts       # failing tests
 
-    fs.Clear o ⋄ •BQN mf2
+    fs.Clear o ⋄ p •BQN mf2
     ce ← { ×≠ft ? s.Lines2 2↓•file.Chars o ; ⟨⟩ } # current evaluations
     fe ← ce((≠⊸↑⟜×)/⊣)uts                         # failing evauations (only)
     •file.Remove o
