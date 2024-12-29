@@ -34,7 +34,8 @@ TestSingleFile ← {
     fe ← ce((≠⊸↑⟜×)/⊣)uts                         # failing evauations (only)
     •file.Remove o
 
-    ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘c.Yellow¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
+    Nnl ← {1<≠s.Lines 𝕩} # need new line
+    ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘(c.Yellow Nnl◶⟨⊢,nl⊸∾⟩)¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
 IncludesUnitTest ← { ∨´(∨´1↑"u.UnitTe"⊸⍷∨("UnitFail"⊸⍷∨"UnitTest"⊸⍷))¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
