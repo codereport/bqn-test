@@ -38,7 +38,7 @@ TestSingleFile ← {
     ∾f∾∾(uts⊏cdots)∾((c.Red¨ft)⋈¨(" currently: "⊸∾∘(c.Yellow Nnl◶⟨⊢,nl⊸∾⟩)¨fe))∾((¬𝕨)∧×≠ft)⊏""‿nl
 }
 
-IncludesUnitTest ← { ∨´(∨´1↑"u.UnitTe"⊸⍷∨("UnitFail"⊸⍷∨"UnitTest"⊸⍷))¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
+IncludesUnitTest ← { ∨´(∨´1↑"u.UnitFa"⊸⍷∨"u.UnitTe"⊸⍷∨("UnitFail"⊸⍷∨"UnitTest"⊸⍷))¨(¬·∨´"⇐"⊸⍷)¨⊸/•file.Lines𝕩 }
 
 main ← {
     •Out title
